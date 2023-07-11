@@ -26,6 +26,7 @@ img {
 }
 input {
   width: 250px;
+  border: 3px solid black;
 }
 .label {
   font-size: large;
@@ -34,4 +35,8 @@ input {
 .value {
   font-weight: 700;
   font-size: x-large;
+  text-align: center;
+}
+button {
+  border: 3px solid black;
 }
