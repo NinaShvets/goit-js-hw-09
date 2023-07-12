@@ -11,15 +11,18 @@ btnStart.addEventListener('click', onBtnStartClick);
 btnStop.addEventListener('click', onBtnStopClick);
 
 function onBtnStartClick() {
-  btnStart.disabled = true;
-  btnStop.disabled = false;
+  btnDisabled(true);
   intervalId = setInterval(changeBackgroundColor, 1000);
 }
 function onBtnStopClick() {
   clearInterval(intervalId);
-  btnStart.disabled = false;
-  btnStop.disabled = true;
+  btnDisabled(false);
 }
 function changeBackgroundColor() {
   document.body.style.backgroundColor = getRandomHexColor();
+}
+
+function btnDisabled(disableStart) {
+  btnStart.disabled = disableStart;
+  btnStop.disabled = !disableStart;
 }

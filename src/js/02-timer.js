@@ -13,12 +13,12 @@ btnEl.addEventListener('click', onBtnElClick);
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: new Date(),
+  defaultDate: Date.now(),
   minuteIncrement: 1,
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
 
-    if (selectedDate < new Date()) {
+    if (selectedDate < Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
       btnEl.disabled = true;
     } else {
@@ -30,7 +30,7 @@ flatpickr(inputEl, options);
 
 function onBtnElClick() {
   const selectedDate = flatpickr.parseDate(inputEl.value);
-  const currentDate = new Date();
+  const currentDate = Date.now();
   const timeDifference = selectedDate - currentDate;
 
   if (timeDifference <= 0) {
@@ -43,21 +43,27 @@ function onBtnElClick() {
 function startTimer(timeDifference) {
   const timerInterval = setInterval(() => {
     const { days, hours, minutes, seconds } = convertMs(timeDifference);
-    daysEl.textContent = addLeadingZero(days);
-    hoursEl.textContent = addLeadingZero(hours);
-    minutesEl.textContent = addLeadingZero(minutes);
-    secondsEl.textContent = addLeadingZero(seconds);
+    setElementTextContent(daysEl, addLeadingZero(days));
+    setElementTextContent(hoursEl, addLeadingZero(hours));
+    setElementTextContent(minutesEl, addLeadingZero(minutes));
+    setElementTextContent(secondsEl, addLeadingZero(seconds));
 
     timeDifference -= 1000;
 
     if (timeDifference <= 0) {
       clearInterval(timerInterval);
-      daysEl.textContent = '00';
-      hoursEl.textContent = '00';
-      minutesEl.textContent = '00';
-      secondsEl.textContent = '00';
+      setElementTextContent(daysEl, '00');
+      setElementTextContent(hoursEl, '00');
+      setElementTextContent(minutesEl, '00');
+      setElementTextContent(secondsEl, '00');
     }
   }, 1000);
+}
+
+function setElementTextContent(element, text) {
+  if (element) {
+    element.textContent = text;
+  }
 }
 
 function convertMs(ms) {
